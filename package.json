@@ -1,0 +1,13 @@
+{
+  "name": "petguard",
+  "version": "1.0.0",
+  "description": "## Overview This repository contains the development of a privacy-focused application aimed at securely sharing specific pet health information with authorized parties such as veterinarians. The application is designed with encryption and cybersecurity as core themes, allowing pet owners to manage their pet's health data with selective access controls and data revocation capabilities.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

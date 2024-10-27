@@ -1,0 +1,27 @@
+/* UserDash.css */
+
+.user-dash-container,.vet-dash-container {
+    display: grid;
+    grid-template-columns: repeat(3, 300px); /* 3 columns, each 300px wide */
+    gap: 5rem; /* Space between cards */
+    padding: 1rem;
+    justify-content: start; /* Aligns the grid to the left */
+    margin-top: 1.5rem;
+}
+
+.search-bar {
+    width: 100%;
+    margin-top: 1rem;
+    max-width: 95vw; /* Limits the width of the search bar */
+    padding: 10px 15px;
+    border: 1.5px solid #46CDCF;
+    border-radius: 10px; /* Rounded corners */
+    font-size: 16px;
+    outline: none;
+    background-color: transparent;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow */
+}
+
+.search-bar::placeholder {
+    color: #46CDCF;
+}

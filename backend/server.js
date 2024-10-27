@@ -22,12 +22,11 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-    cors({
-        origin: "http://localhost:5173",
-        credentials: true,
-    })
-);
+app.use(cors());
+
+// app.get('/', (req, res) => {
+//     res.send("Server is ready 123");
+// });
 
 /* ROUTES */
 app.use("/auth", authRoutes);
@@ -35,9 +34,13 @@ app.use("/users", userRoutes);
 app.use("/vets", vetRoutes);
 app.use("/pets", petRoutes);
 
+// app.listen(port, () => {
+//     console.log(`Server started successfully on port: ${port}`);
+// });
+
 /* MONGOOSE SETUP */
 mongoose
-    .connect(process.env.MONGO_URL, )
+    .connect(process.env.MONGO_URL)
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.error("MongoDB connection error:", error));
 
