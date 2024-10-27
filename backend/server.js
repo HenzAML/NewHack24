@@ -37,9 +37,9 @@ app.use("/vets", vetRoutes);
 app.use("/pets", petRoutes);
 
 /* MONGOOSE SETUP */
-mongoose.connect('mongodb://localhost:27017/petGuard', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("MongoDB connected"))
-  .catch((error) => console.error("MongoDB connection error:", error));
+  .catch(error => console.error("MongoDB connection error:", error));
 
 const UserSchema = new mongoose.Schema({
     first_name: String,
