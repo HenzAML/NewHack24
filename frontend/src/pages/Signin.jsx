@@ -12,8 +12,21 @@ function SignIn() {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f3f4f6',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 5,
       }}
     >
+      <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', color: '#48466D' }}>
+        Welcome to{' '}
+        <Box component="span" sx={{ color: 'primary.main' }}>
+          Pet
+        </Box>
+        <Box component="span" sx={{ color: 'secondary.main' }}>
+          Guards
+        </Box>
+      </Typography>
+
       <Box
         sx={{
           width: '50%',
@@ -23,9 +36,10 @@ function SignIn() {
           borderRadius: 2,
           boxShadow: 3,
           textAlign: 'center',
+          color: '#48466D',
         }}
       >
-         <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000000' }}>
+        <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000000' }}>
           Sign In
         </Typography>
         <TextField

@@ -1,9 +1,37 @@
 // SignUp.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 function Signup() {
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5001/auth/signup', formData, {
+        withCredentials: true,
+      });
+      console.log('User signed up successfully:', response.data);
+      // Optionally redirect the user or show a success message
+    } catch (error) {
+      console.error('Error signing up:', error);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -28,52 +56,61 @@ function Signup() {
         <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#000000' }}>
           Sign Up
         </Typography>
-        
-        {/* First Name Input */}
-        <TextField
-          label="First Name"
-          type="text"
-          fullWidth
-          margin="normal"
-          required
-        />
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="First Name"
+            name="first_name"
+            type="text"
+            fullWidth
+            margin="normal"
+            required
+            value={formData.first_name}
+            onChange={handleChange}
+          />
 
-        {/* Last Name Input */}
-        <TextField
-          label="Last Name"
-          type="text"
-          fullWidth
-          margin="normal"
-          required
-        />
+          <TextField
+            label="Last Name"
+            name="last_name"
+            type="text"
+            fullWidth
+            margin="normal"
+            required
+            value={formData.last_name}
+            onChange={handleChange}
+          />
 
-        {/* Email Input */}
-        <TextField
-          label="Email"
-          type="email"
-          fullWidth
-          margin="normal"
-          required
-        />
+          <TextField
+            label="Email"
+            name="email"
+            type="email"
+            fullWidth
+            margin="normal"
+            required
+            value={formData.email}
+            onChange={handleChange}
+          />
 
-        {/* Password Input */}
-        <TextField
-          label="Password"
-          type="password"
-          fullWidth
-          margin="normal"
-          required
-        />
+          <TextField
+            label="Password"
+            name="password"
+            type="password"
+            fullWidth
+            margin="normal"
+            required
+            value={formData.password}
+            onChange={handleChange}
+          />
 
-        {/* Sign Up Button */}
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ mt: 3 }}
-        >
-          Sign Up
-        </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 3 }}
+          >
+            Sign Up
+          </Button>
+        </form>
         <NavLink to="/signin" style={{ textDecoration: 'none' }}>
           <Button variant="text" color="secondary" fullWidth sx={{ mt: 1 }}>
             I'm already a member
