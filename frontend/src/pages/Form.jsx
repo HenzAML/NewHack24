@@ -1,8 +1,18 @@
 // Form.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Typography, FormControl, Select, MenuItem, InputLabel, Box, Checkbox, FormControlLabel } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 
 function Form() {
+    const [image, setImage] = useState(null);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const imageURL = URL.createObjectURL(file);
+            setImage(imageURL); // Set the image URL to preview
+        }
+    };
     return (
         <Box
             sx={{
@@ -124,16 +134,54 @@ function Form() {
                         <Typography variant="body1" sx={{ fontWeight: 'medium', color: '#333333', mb: 1 }}>
                             Upload Pictures
                         </Typography>
-                        <Box sx={{ border: '2px dashed', borderColor: 'grey.300', borderRadius: 2, p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'grey.500' }}>
-                            <Box sx={{ mb: 1, color: 'grey.500' }}>📷</Box>
-                            <Typography variant="body2" sx={{ color: '#888888' }}>Select images</Typography>
-                        </Box>
+                        <label htmlFor="upload-image" style={{ cursor: 'pointer', display: 'block' }}>
+                            <Box sx={{
+                                border: '2px dashed',
+                                borderColor: 'grey.300',
+                                borderRadius: 2,
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'grey.500',
+                                overflow: 'hidden', // Ensures image fits within the box
+                                width: '100%',
+                                height: '200px', // Define a specific height for the box
+                            }}>
+                                {image ? (
+                                    <img
+                                        src={image}
+                                        alt="Uploaded preview"
+                                        style={{
+                                            maxWidth: '100%',
+                                            maxHeight: '100%',
+                                            objectFit: 'contain'
+                                        }}
+                                    />
+                                ) : (
+                                    <>
+                                        <Box sx={{ mb: 1, color: 'grey.500' }}>📷</Box>
+                                        <Typography variant="body2" sx={{ color: '#888888' }}>Select images</Typography>
+                                    </>
+                                )}
+                            </Box>
+                        </label>
+                        <input
+                            type="file"
+                            id="upload-image"
+                            style={{ display: 'none' }}
+                            accept="image/*"
+                            onChange={handleImageChange}
+                        />
                     </Box>
 
                     {/* Save Button */}
-                    <Button variant="contained" color="primary" fullWidth sx={{ backgroundColor: 'teal', color: 'white' }}>
+                    <NavLink to="/petdetails" style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" color="primary" fullWidth sx={{ backgroundColor: '#3D84A8', color: 'white' }}>
                         Save It
                     </Button>
+                    </NavLink>
                 </Box>
             </Box>
         </Box>

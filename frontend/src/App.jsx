@@ -6,6 +6,9 @@ import Home from './pages/Home';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Form from './pages/Form';
+import UserDash from './pages/UserDash';
+import VetDash from './pages/VetDash';
+import PetDetails from './pages/PetDetail';
 
 const App = () => {
   return (
@@ -14,6 +17,9 @@ const App = () => {
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/form" element={<Form />} />
+      <Route path="/userdash" element={<UserDash />} />
+      <Route path="/vetdash" element={<VetDash />} />
+      <Route path="/petdetails" element={<PetDetails />} />
     </Routes>
   );
 };
