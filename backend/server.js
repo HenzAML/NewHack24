@@ -14,8 +14,7 @@ import petRoutes from "./routes/petRoutes.js";
 dotenv.config();
 
 const app = express();
-
-const port = process.env.PORT;
+const port = process.env.PORT || 3001; // Use 3001 as fallback if PORT is undefined
 
 app.use(express.json());
 app.use(helmet());
@@ -45,6 +44,7 @@ mongoose
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.error("MongoDB connection error:", error));
 
+/* SAMPLE DATASET ROUTE */
 const UserSchema = new mongoose.Schema({
     first_name: String,
     last_name: String,
@@ -54,12 +54,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
 });
 
-const UserModel = mongoose.model("Dataset", UserSchema); // Ensure the model name matches the collection name in MongoDB
+const UserModel = mongoose.model("Dataset", UserSchema);
 
 app.get("/getDataset", (req, res) => {
     UserModel.find({})
         .then((users) => {
-            res.json(users); // Use 'users' instead of 'data'
+            res.json(users);
         })
         .catch((err) => {
             console.error(err);
@@ -69,6 +69,6 @@ app.get("/getDataset", (req, res) => {
         });
 });
 
-app.listen(3001, () => {
-    console.log("Server started at http://localhost:3001");
+app.listen(port, () => {
+    console.log(`Server started successfully on port: ${port}`);
 });
