@@ -40,6 +40,39 @@ app.use("/users", userRoutes);
 app.use("/vets", vetRoutes);
 app.use("/pets", petRoutes);
 
+
 app.listen(port, () => {
     console.log(`Server started successfully on port: ${port}`);
 });
+
+/* MONGOOSE SETUP */
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log("MongoDB connected"))
+  .catch(error => console.error("MongoDB connection error:", error));
+
+const UserSchema = new mongoose.Schema({
+    first_name: String,
+    last_name: String,
+    email: String,
+    user_id: Number,
+    password: String,
+    type: String
+});
+
+const UserModel = mongoose.model("Dataset", UserSchema);  // Ensure the model name matches the collection name in MongoDB
+
+app.get("/getDataset", (req, res) => {
+    UserModel.find({})
+      .then((users) => {
+          res.json(users);  // Use 'users' instead of 'data'
+      })
+      .catch((err) => {
+          console.error(err);
+          res.status(500).json({ error: "An error occurred while fetching data." });
+      });
+});
+
+app.listen(3001, () => {
+    console.log('Server started at http://localhost:3001');
+});
+
