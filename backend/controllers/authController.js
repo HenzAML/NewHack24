@@ -6,7 +6,7 @@ const emailRegex = /.+\@.+\..+/;
 // Vet: Sign Up
 export const vetSignUp = async (req, res) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
+        const { first_Name, last_Name, email, password } = req.body;
         // Validate email format:
         if (!emailRegex.test(email)) {
             return res.status(400).json({ error: "Invalid email format" });
@@ -19,8 +19,8 @@ export const vetSignUp = async (req, res) => {
         // Encrypt with hashed password
         const hashedPassword = await bcrypt.hash(password, 10);
         const newVet = new User({
-            firstName: firstName,
-            lastName: lastName,
+            first_name: first_Name,
+            last_Name: last_Name,
             email: email,
             password: hashedPassword,
             type: "doctor",

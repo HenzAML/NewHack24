@@ -8,8 +8,8 @@ import {
 
 const router = express.Router();
 
-// Vet Sign In (Sign Up)
-router.post("/vet/signin", vetSignUp);
+// Vet Sign Up
+router.post("/vet/signup", vetSignUp);
 
 // Vet Login
 router.post("/vet/login", vetLogin);
