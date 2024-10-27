@@ -1,15 +1,20 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
+const emailRegex = /.+\@.+\..+/;
 
 // Vet: Sign Up
 export const vetSignUp = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
+        // Validate email format:
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ error: "Invalid email format" });
+        }
         // Check for duplicate vet
         const existingVet = await User.findOne({ email });
         if (existingVet) {
-            return res.status(400).json({ error: "Email already registered" });
+            return res.status(409).json({ error: "Email already registered" });
         }
         // Encrypt with hashed password
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,8 +38,16 @@ export const vetSignUp = async (req, res) => {
 export const vetLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
+        // Validate email format:
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ error: "Invalid email format" });
+        }
+        // Check for vet
         const vet = await User.findOne({ email });
 
+        if (!vet) {
+            return res.status(401).json({ error: "User not found" });
+        }
         // Compare hashed password
         const isPasswordCorrect = await bcrypt.compare(password, vet.password);
         if (!isPasswordCorrect) {
@@ -67,10 +80,14 @@ export const vetLogin = async (req, res) => {
 export const ownerSignUp = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
+        // Validate email format:
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ error: "Invalid email format" });
+        }
         // Check for duplicate
         const existingOwner = await User.findOne({ email });
         if (existingOwner) {
-            return res.status(400).json({ error: "Email already registered" });
+            return res.status(403).json({ error: "Email already registered" });
         }
         // Encrypt hashed password
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -92,24 +109,29 @@ export const ownerSignUp = async (req, res) => {
 export const ownerLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
+        // Validate email format:
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ error: "Invalid email format" });
+        }
         // Check if user exists
         const owner = await User.findOne({ email });
+        if (!owner) {
+            return res.status(403).json({ error: "User not found" });
+        }
+        // Check if password is correct
         const isPasswordCorrect = await bcrypt.compare(
             password,
             owner.password
         );
-
         // Compare hashed password
         if (!isPasswordCorrect) {
             return res.status(401).json({ error: "Incorrect password" });
         }
-
         // Ensure JWT_SECRET is defined
         const JWT_SECRET = process.env.JWT_SECRET;
         if (!JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined");
         }
-
         // Generate JWT token
         const token = jwt.sign({ id: owner.email, role: "owner" }, JWT_SECRET, {
             expiresIn: "1h",

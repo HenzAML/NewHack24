@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: /.+\@.+\..+/
+        // match: /.+\@.+\..+/
     },
     user_id: {
         type: Number,
